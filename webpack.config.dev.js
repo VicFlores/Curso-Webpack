@@ -3,12 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DotenvWebpack = require('dotenv-webpack');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 /** @type {import('webpack').Configuration} */
 
 module.exports = {
-  watch: true,
   mode: 'development',
+  devtool: 'source-map',
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -77,5 +78,13 @@ module.exports = {
       ],
     }),
     new DotenvWebpack(),
+    new BundleAnalyzerPlugin(),
   ],
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    open: true,
+    compress: true,
+    historyApiFallback: true,
+    port: 3000,
+  },
 };
